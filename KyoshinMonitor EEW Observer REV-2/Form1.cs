@@ -12,6 +12,8 @@ using NAudio;
 using System.Net.Http;
 using System.IO;
 using System.Net;
+using System.Drawing.Text;
+using System.Drawing.Drawing2D;
 
 namespace KyoshinMonitor_EEW_Observer_REV_2
 {
@@ -24,7 +26,18 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            Bitmap canvas = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+            Graphics g = Graphics.FromImage(canvas);
+            SolidBrush b = new SolidBrush(Color.FromArgb(47, 79, 79));
+            g.FillRectangle(b, 0, 0, 230, 85);
+            Pen p = new Pen(Color.FromArgb(40, 60, 60), 3);
+            g.DrawRectangle(p, 1, 1, 227, 82);
+            Font fnt = new Font("Koruri Regular", 20);
+            g.DrawString("取得中",fnt,Brushes.White,10,10);
+            g.Dispose();
+            b.Dispose();
+            g.SmoothingMode = SmoothingMode.AntiAlias; 
+            pictureBox2.Image = canvas;
 
         }
 
