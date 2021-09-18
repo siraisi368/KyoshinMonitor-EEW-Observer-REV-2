@@ -54,7 +54,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 102);
+            this.ClientSize = new System.Drawing.Size(442, 394);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
