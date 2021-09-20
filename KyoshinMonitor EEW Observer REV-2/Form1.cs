@@ -32,9 +32,9 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             g.FillRectangle(b, 0, 0, 230, 85);
             Pen p = new Pen(Color.FromArgb(40, 60, 60), 3);
             g.DrawRectangle(p, 1, 1, 227, 82);
-            Font fnt = new Font("Koruri Regular", 20);
+            Font fnt = new Font("Koruri Light", 20);
+            g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
             g.DrawString("取得中",fnt,Brushes.White,10,10);
-            g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Dispose();
             b.Dispose();
             pictureBox2.Image = canvas;
