@@ -34,9 +34,9 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             g.DrawRectangle(p, 1, 1, 227, 82);
             Font fnt = new Font("Koruri Regular", 20);
             g.DrawString("取得中",fnt,Brushes.White,10,10);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Dispose();
             b.Dispose();
-            g.SmoothingMode = SmoothingMode.AntiAlias; 
             pictureBox2.Image = canvas;
 
         }
