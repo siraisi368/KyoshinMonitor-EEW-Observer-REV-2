@@ -28,9 +28,9 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
         {
             Bitmap canvas = new Bitmap(pictureBox2.Width, pictureBox2.Height);
             Graphics g = Graphics.FromImage(canvas);
-            SolidBrush b = new SolidBrush(Color.FromArgb(47, 79, 79));
+            SolidBrush b = new SolidBrush(Color.FromArgb(40, 60, 60));
             g.FillRectangle(b, 0, 0, 230, 85);
-            Pen p = new Pen(Color.FromArgb(40, 60, 60), 3);
+            Pen p = new Pen(Color.FromArgb(47, 79, 79), 3);
             g.DrawRectangle(p, 1, 1, 227, 82);
             Font fnt = new Font("Koruri Light", 20);
             Font fnt2 = new Font("Koruri Light",15);
@@ -69,33 +69,46 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                 var al_flg = eew.alertflg;
                 var eew_flg = eew.result.message;
                 var mag = eew.magunitude;
-
-                if(al_flg == "予報")
+                
+                Bitmap canvas = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+                Graphics g = Graphics.FromImage(canvas);
+                Font fnt = new Font("Koruri Light", 20);
+                Font fnt2 = new Font("Koruri Light", 15);
+                Font fnt3 = new Font("Koruri Light", 10);
+                Font fnt4 = new Font("Koruri Light", 8);
+                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                if (al_flg == "予報")
                 {
-
+                    SolidBrush b = new SolidBrush(Color.FromArgb(255, 219, 0));//文字部分
+                    Pen p = new Pen(Color.FromArgb(218, 165, 2), 3);//枠1
+                    SolidBrush b2 = new SolidBrush(Color.FromArgb(218, 165, 2));//枠2
+                    g.FillRectangle(b, 0, 0, 230, 85);
+                    g.FillRectangle(b2, 0, 0, 230, 20);
+                    g.DrawRectangle(p, 1, 1, 227, 82);
                 }
                 else if (al_flg == "警報")
                 {
-
+                    SolidBrush b = new SolidBrush(Color.FromArgb(142, 0, 0));//文字部分
+                    Pen p = new Pen(Color.FromArgb(212, 0, 0), 3);//枠1
+                    SolidBrush b2 = new SolidBrush(Color.FromArgb(212, 0, 0));//枠2
+                    g.FillRectangle(b, 0, 0, 230, 85);
+                    g.FillRectangle(b2, 0, 0, 230, 20);
+                    g.DrawRectangle(p, 1, 1, 227, 82);
                 }
                 else
                 {
-                    Bitmap canvas = new Bitmap(pictureBox2.Width, pictureBox2.Height);
-                    Graphics g = Graphics.FromImage(canvas);
-                    SolidBrush b = new SolidBrush(Color.FromArgb(47, 79, 79));
+                    SolidBrush b = new SolidBrush(Color.FromArgb(40, 60, 60));
                     g.FillRectangle(b, 0, 0, 230, 85);
-                    Pen p = new Pen(Color.FromArgb(40, 60, 60), 3);
+                    Pen p = new Pen(Color.FromArgb(47, 79, 79), 3);
                     g.DrawRectangle(p, 1, 1, 227, 82);
-                    Font fnt = new Font("Koruri Light", 20);
-                    Font fnt2 = new Font("Koruri Light", 15); 
-                    g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
                     g.DrawString("受信待機中", fnt, Brushes.White, 3, 2);
                     g.DrawString("No Data...", fnt2, Brushes.White, 4, 30);
-                    g.Dispose();
                     b.Dispose();
-                    pictureBox2.Image = canvas;
                 }
+                g.Dispose();
+                pictureBox2.Image = canvas;
 
+                label2.Text = dt.ToString("yyyy/MM/dd HH:mm:ss");
             }
             //強震モニタ画像部分
             {
