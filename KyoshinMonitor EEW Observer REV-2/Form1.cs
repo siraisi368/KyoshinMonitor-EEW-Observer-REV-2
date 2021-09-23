@@ -66,7 +66,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                 var end_flg = eew.is_final;
                 var rpt_no = eew.report_num;
                 var ori_t = eew.origin_time;
-                var al_flg = eew.alertflg;
+                var al_flg = "予報";
                 var eew_flg = eew.result.message;
                 var mag = eew.magunitude;
                 
@@ -75,7 +75,8 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                 Font fnt = new Font("Koruri Light", 20);
                 Font fnt2 = new Font("Koruri Light", 15);
                 Font fnt3 = new Font("Koruri Light", 10);
-                Font fnt4 = new Font("Koruri Light", 8);
+                Font fnt4 = new Font("Koruri Regular", 12); 
+                Font fnt5 = new Font("Koruri Regular", 15);
                 g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
                 if (al_flg == "予報")
                 {
@@ -85,6 +86,8 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                     g.FillRectangle(b, 0, 0, 230, 85);
                     g.FillRectangle(b2, 0, 0, 230, 20);
                     g.DrawRectangle(p, 1, 1, 227, 82);
+                    g.DrawString("緊急地震速報(予報) #188", fnt4, Brushes.White, 0, 0);
+                    g.DrawString("山梨県東部・富士五湖", fnt5, Brushes.Black, 0, 20);
                 }
                 else if (al_flg == "警報")
                 {
