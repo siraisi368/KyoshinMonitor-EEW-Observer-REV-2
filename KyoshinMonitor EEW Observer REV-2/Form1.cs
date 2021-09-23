@@ -50,56 +50,153 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                 DateTime dt = DateTime.Now; //現在時刻の取得(PC時刻より)
                 var tm = dt.AddSeconds(-2); //現在時刻から2秒引く(取得失敗を防ぐため)
                 var time = tm.ToString("yyyyMMddHHmmss");//時刻形式の指定(西暦/月/日/時/分/秒)
-                var client = new HttpClient();
 
-                var url = $"http://www.kmoni.bosai.go.jp/webservice/hypo/eew/{time}.json"; //強震モニタURLの指定
-
-                var json = await client.GetStringAsync(url); //awaitを用いた非同期JSON取得
-                var eew = JsonConvert.DeserializeObject<EEW>(json);//EEWクラスを用いてJSONを解析(デシリアライズ)
-                var rpt_t = eew.report_time;
-                var reg = eew.region_name;
-                var lati = eew.latitude;
-                var lotu = eew.longitude;
-                var canc_flg = eew.is_cancel;
-                var depth = eew.depth;
-                var intn = eew.calcintensity;
-                var end_flg = eew.is_final;
-                var rpt_no = eew.report_num;
-                var ori_t = eew.origin_time;
-                var al_flg = "予報";
-                var eew_flg = eew.result.message;
-                var mag = eew.magunitude;
-                
-                Bitmap canvas = new Bitmap(pictureBox2.Width, pictureBox2.Height);
-                Graphics g = Graphics.FromImage(canvas);
                 Font fnt = new Font("Koruri Light", 20);
                 Font fnt2 = new Font("Koruri Light", 15);
-                Font fnt3 = new Font("Koruri Light", 10);
-                Font fnt4 = new Font("Koruri Regular", 12); 
+                Font fnt4 = new Font("Koruri Regular", 12);
                 Font fnt5 = new Font("Koruri Regular", 15);
+                Font fnt6 = new Font("Koruri Regular", 8);
+                Font fnt7 = new Font("Koruri Light", 20);
+                Font fnt8 = new Font("Koruri Light", 25);
+
+                Bitmap canvas = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+                Graphics g = Graphics.FromImage(canvas);
+
                 g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-                if (al_flg == "予報")
+
+                try
                 {
-                    SolidBrush b = new SolidBrush(Color.FromArgb(255, 219, 0));//文字部分
-                    Pen p = new Pen(Color.FromArgb(218, 165, 2), 3);//枠1
-                    SolidBrush b2 = new SolidBrush(Color.FromArgb(218, 165, 2));//枠2
-                    g.FillRectangle(b, 0, 0, 230, 85);
-                    g.FillRectangle(b2, 0, 0, 230, 20);
-                    g.DrawRectangle(p, 1, 1, 227, 82);
-                    g.DrawString("緊急地震速報(予報) #188", fnt4, Brushes.White, 0, 0);
-                    g.DrawString("山梨県東部・富士五湖", fnt5, Brushes.Black, 0, 20);
+                    var client = new HttpClient();
+
+                    var url = $"http://www.kmoni.bosai.go.jp/webservice/hypo/eew/{time}.json"; //強震モニタURLの指定
+
+                    var json = await client.GetStringAsync(url); //awaitを用いた非同期JSON取得
+                    var eew = JsonConvert.DeserializeObject<EEW>(json);//EEWクラスを用いてJSONを解析(デシリアライズ)
+                    var rpt_t = eew.report_time;
+                    var reg = eew.region_name;
+                    var lati = eew.latitude;
+                    var lotu = eew.longitude;
+                    var canc_flg = eew.is_cancel;
+                    var depth = eew.depth;
+                    var intn = eew.calcintensity;
+                    var end_flg = eew.is_final;
+                    var rpt_no = eew.report_num;
+                    var ori_t = eew.origin_time;
+                    var al_flg = eew.alertflg;
+                    var eew_flg = eew.result.message;
+                    var mag = eew.magunitude;
+
+                    
+
+                    if (al_flg == "予報")
+                    {
+                        if (end_flg == "")
+                        {
+                            SolidBrush b = new SolidBrush(Color.FromArgb(255, 219, 0));//文字部分
+                            Pen p = new Pen(Color.FromArgb(218, 165, 2), 3);//枠1
+                            SolidBrush b2 = new SolidBrush(Color.FromArgb(218, 165, 2));//枠2
+                            g.FillRectangle(b, 0, 0, 230, 85);
+                            g.FillRectangle(b2, 0, 0, 230, 20);
+                            g.DrawRectangle(p, 1, 1, 227, 82);
+                            g.DrawString($"緊急地震速報(予報) #{rpt_no}", fnt4, Brushes.Black, 0, 0);
+                            g.DrawString(reg, fnt5, Brushes.Black, 0, 20);
+                            g.DrawString("震度", fnt6, Brushes.Black, 3, 67);
+                            g.DrawString(intn, fnt8, Brushes.Black, 25, 42);
+                            g.DrawString("M", fnt6, Brushes.Black, 85, 67);
+                            g.DrawString(mag, fnt7, Brushes.Black, 95, 50);
+                            g.DrawString("深さ", fnt6, Brushes.Black, 140, 67);
+                            g.DrawString(depth, fnt7, Brushes.Black, 155, 50);
+                            g.DrawString("km", fnt6, Brushes.Black, 205, 67);
+                            b.Dispose();
+                            b2.Dispose();
+                            p.Dispose();
+                        }
+                        else
+                        {
+                            SolidBrush b = new SolidBrush(Color.FromArgb(255, 219, 0));//文字部分
+                            Pen p = new Pen(Color.FromArgb(218, 165, 2), 3);//枠1
+                            SolidBrush b2 = new SolidBrush(Color.FromArgb(218, 165, 2));//枠2
+                            g.FillRectangle(b, 0, 0, 230, 85);
+                            g.FillRectangle(b2, 0, 0, 230, 20);
+                            g.DrawRectangle(p, 1, 1, 227, 82);
+                            g.DrawString($"緊急地震速報(予報) #{rpt_no} 最終", fnt4, Brushes.Black, 0, 0);
+                            g.DrawString(reg, fnt5, Brushes.Black, 0, 20);
+                            g.DrawString("震度", fnt6, Brushes.Black, 3, 67);
+                            g.DrawString(intn, fnt8, Brushes.Black, 25, 42);
+                            g.DrawString("M", fnt6, Brushes.Black, 85, 67);
+                            g.DrawString(mag, fnt7, Brushes.Black, 95, 50);
+                            g.DrawString("深さ", fnt6, Brushes.Black, 140, 67);
+                            g.DrawString(depth, fnt7, Brushes.Black, 155, 50);
+                            g.DrawString("km", fnt6, Brushes.Black, 205, 67);
+                            b.Dispose();
+                            b2.Dispose();
+                            p.Dispose();
+                        }
+
+                    }
+                    else if (al_flg == "警報")
+                    {
+                        if (end_flg == "")
+                        {
+                            SolidBrush b = new SolidBrush(Color.FromArgb(142, 0, 0));//文字部分
+                            Pen p = new Pen(Color.FromArgb(212, 0, 0), 3);//枠1
+                            SolidBrush b2 = new SolidBrush(Color.FromArgb(212, 0, 0));//枠2
+                            g.FillRectangle(b, 0, 0, 230, 85);
+                            g.FillRectangle(b2, 0, 0, 230, 20);
+                            g.DrawRectangle(p, 1, 1, 227, 82);
+                            g.DrawString($"緊急地震速報(警報) #{rpt_no}", fnt4, Brushes.White, 0, 0);
+                            g.DrawString(reg, fnt5, Brushes.White, 0, 20);
+                            g.DrawString("震度", fnt6, Brushes.White, 3, 67);
+                            g.DrawString(intn, fnt8, Brushes.White, 25, 42);
+                            g.DrawString("M", fnt6, Brushes.White, 85, 67);
+                            g.DrawString(mag, fnt7, Brushes.White, 95, 50);
+                            g.DrawString("深さ", fnt6, Brushes.White, 140, 67);
+                            g.DrawString(depth, fnt7, Brushes.White, 155, 50);
+                            g.DrawString("km", fnt6, Brushes.White, 205, 67);
+                            b.Dispose();
+                            b2.Dispose();
+                            p.Dispose();
+                        }
+                        else
+                        {
+                            SolidBrush b = new SolidBrush(Color.FromArgb(142, 0, 0));//文字部分
+                            Pen p = new Pen(Color.FromArgb(212, 0, 0), 3);//枠1
+                            SolidBrush b2 = new SolidBrush(Color.FromArgb(212, 0, 0));//枠2
+                            g.FillRectangle(b, 0, 0, 230, 85);
+                            g.FillRectangle(b2, 0, 0, 230, 20);
+                            g.DrawRectangle(p, 1, 1, 227, 82);
+                            g.DrawString($"緊急地震速報(警報) #{rpt_no} 最終", fnt4, Brushes.White, 0, 0);
+                            g.DrawString(reg, fnt5, Brushes.White, 0, 20);
+                            g.DrawString("震度", fnt6, Brushes.White, 3, 67);
+                            g.DrawString(intn, fnt8, Brushes.White, 25, 42);
+                            g.DrawString("M", fnt6, Brushes.White, 85, 67);
+                            g.DrawString(mag, fnt7, Brushes.White, 95, 50);
+                            g.DrawString("深さ", fnt6, Brushes.White, 140, 67);
+                            g.DrawString(depth, fnt7, Brushes.White, 155, 50);
+                            g.DrawString("km", fnt6, Brushes.White, 205, 67);
+                            b.Dispose();
+                            b2.Dispose();
+                            p.Dispose();
+                        }
+                    }
+                    else
+                    {
+                        SolidBrush b = new SolidBrush(Color.FromArgb(40, 60, 60));
+                        g.FillRectangle(b, 0, 0, 230, 85);
+                        Pen p = new Pen(Color.FromArgb(47, 79, 79), 3);
+                        g.DrawRectangle(p, 1, 1, 227, 82);
+                        g.DrawString("受信待機中", fnt, Brushes.White, 3, 2);
+                        g.DrawString("No Data...", fnt2, Brushes.White, 4, 30);
+                        b.Dispose();
+                        p.Dispose();
+                    }
+                    g.Dispose();
+                    pictureBox2.Image = canvas;
                 }
-                else if (al_flg == "警報")
+                catch
                 {
-                    SolidBrush b = new SolidBrush(Color.FromArgb(142, 0, 0));//文字部分
-                    Pen p = new Pen(Color.FromArgb(212, 0, 0), 3);//枠1
-                    SolidBrush b2 = new SolidBrush(Color.FromArgb(212, 0, 0));//枠2
-                    g.FillRectangle(b, 0, 0, 230, 85);
-                    g.FillRectangle(b2, 0, 0, 230, 20);
-                    g.DrawRectangle(p, 1, 1, 227, 82);
-                }
-                else
-                {
+                    
+                    await Task.Delay(10);
                     SolidBrush b = new SolidBrush(Color.FromArgb(40, 60, 60));
                     g.FillRectangle(b, 0, 0, 230, 85);
                     Pen p = new Pen(Color.FromArgb(47, 79, 79), 3);
@@ -107,10 +204,9 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                     g.DrawString("受信待機中", fnt, Brushes.White, 3, 2);
                     g.DrawString("No Data...", fnt2, Brushes.White, 4, 30);
                     b.Dispose();
+                    p.Dispose();
                 }
-                g.Dispose();
-                pictureBox2.Image = canvas;
-
+                
                 label2.Text = dt.ToString("yyyy/MM/dd HH:mm:ss");
             }
             //強震モニタ画像部分
