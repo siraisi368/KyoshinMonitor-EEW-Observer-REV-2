@@ -41,6 +41,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             b.Dispose();
             pictureBox2.Image = canvas;
 
+            
         }
 
         private async void timer1_Tick(object sender, EventArgs e)
@@ -77,7 +78,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                     var lati = eew.latitude;
                     var lotu = eew.longitude;
                     var canc_flg = eew.is_cancel;
-                    var depth = eew.depth;
+                    var depth_r = eew.depth;
                     var intn = eew.calcintensity;
                     var end_flg = eew.is_final;
                     var rpt_no = eew.report_num;
@@ -86,11 +87,11 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                     var eew_flg = eew.result.message;
                     var mag = eew.magunitude;
 
-                    
+                    string depth = depth_r.Replace("km", "");
 
                     if (al_flg == "予報")
                     {
-                        if (end_flg == "")
+                        if (end_flg == "false")
                         {
                             SolidBrush b = new SolidBrush(Color.FromArgb(255, 219, 0));//文字部分
                             Pen p = new Pen(Color.FromArgb(218, 165, 2), 3);//枠1
@@ -105,7 +106,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                             g.DrawString("M", fnt6, Brushes.Black, 85, 67);
                             g.DrawString(mag, fnt7, Brushes.Black, 95, 50);
                             g.DrawString("深さ", fnt6, Brushes.Black, 140, 67);
-                            g.DrawString(depth, fnt7, Brushes.Black, 155, 50);
+                            g.DrawString(depth, fnt7, Brushes.Black, 160, 50);
                             g.DrawString("km", fnt6, Brushes.Black, 205, 67);
                             b.Dispose();
                             b2.Dispose();
@@ -126,7 +127,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                             g.DrawString("M", fnt6, Brushes.Black, 85, 67);
                             g.DrawString(mag, fnt7, Brushes.Black, 95, 50);
                             g.DrawString("深さ", fnt6, Brushes.Black, 140, 67);
-                            g.DrawString(depth, fnt7, Brushes.Black, 155, 50);
+                            g.DrawString(depth, fnt7, Brushes.Black, 160, 50);
                             g.DrawString("km", fnt6, Brushes.Black, 205, 67);
                             b.Dispose();
                             b2.Dispose();
@@ -136,7 +137,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                     }
                     else if (al_flg == "警報")
                     {
-                        if (end_flg == "")
+                        if (end_flg == "false")
                         {
                             SolidBrush b = new SolidBrush(Color.FromArgb(142, 0, 0));//文字部分
                             Pen p = new Pen(Color.FromArgb(212, 0, 0), 3);//枠1
@@ -151,7 +152,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                             g.DrawString("M", fnt6, Brushes.White, 85, 67);
                             g.DrawString(mag, fnt7, Brushes.White, 95, 50);
                             g.DrawString("深さ", fnt6, Brushes.White, 140, 67);
-                            g.DrawString(depth, fnt7, Brushes.White, 155, 50);
+                            g.DrawString(depth, fnt7, Brushes.White, 160, 50);
                             g.DrawString("km", fnt6, Brushes.White, 205, 67);
                             b.Dispose();
                             b2.Dispose();
@@ -172,7 +173,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                             g.DrawString("M", fnt6, Brushes.White, 85, 67);
                             g.DrawString(mag, fnt7, Brushes.White, 95, 50);
                             g.DrawString("深さ", fnt6, Brushes.White, 140, 67);
-                            g.DrawString(depth, fnt7, Brushes.White, 155, 50);
+                            g.DrawString(depth, fnt7, Brushes.White, 160, 50);
                             g.DrawString("km", fnt6, Brushes.White, 205, 67);
                             b.Dispose();
                             b2.Dispose();

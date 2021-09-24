@@ -89,6 +89,11 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             this.label2.TabIndex = 3;
             this.label2.Text = "0000/00/00 00:00:00";
             // 
+            // timer2
+            // 
+            this.timer2.Enabled = true;
+            this.timer2.Interval = 1000;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
