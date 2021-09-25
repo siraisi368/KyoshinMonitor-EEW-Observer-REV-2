@@ -196,28 +196,34 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                     }
                     g.Dispose();
                     pictureBox2.Image = canvas;
+                    
                 }
                 catch
                 {
                     
                     await Task.Delay(10);
+                    timer1.Enabled = false;
                     SolidBrush b = new SolidBrush(Color.FromArgb(40, 60, 60));
                     g.FillRectangle(b, 0, 0, 230, 85);
                     Pen p = new Pen(Color.FromArgb(47, 79, 79), 3);
                     g.DrawRectangle(p, 1, 1, 227, 82);
-                    g.DrawString("受信待機中", fnt, Brushes.White, 3, 2);
-                    g.DrawString("No Data...", fnt2, Brushes.White, 4, 30);
+                    g.DrawString("再接続中", fnt, Brushes.White, 3, 2);
+                    g.DrawString("Re conecting", fnt2, Brushes.White, 4, 30);
                     b.Dispose();
                     p.Dispose();
+                    await Task.Delay(10);
+                    timer1.Enabled = true;
                 }
                 
                 label2.Text = dt.ToString("yyyy/MM/dd HH:mm:ss");
+                await Task.Delay(100);
             }
 
         }
 
-        private void timer2_Tick(object sender, EventArgs e)
+        private async void timer2_Tick(object sender, EventArgs e)
         {
+            await Task.Delay(0);
             //強震モニタ画像部分
             {
                 try
@@ -228,7 +234,6 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                     var url1 = $"";
                     var time1 = dt.ToString("yyyyMMdd");
                     var time12 = dt.ToString("yyyyMMddHHmmss");
-
                     switch (Properties.Settings.Default.monit_url)
                     {
                         case 0:
@@ -372,6 +377,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                     g.DrawImage(img, rect, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, ia);
                     pictureBox1.Image = canvas;
                     g.Dispose();
+                    await Task.Delay(100);
                 }
                 catch(Exception ea)
                 {

@@ -41,8 +41,9 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             pictureBox2.Image = canvas;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private async void timer1_Tick(object sender, EventArgs e)
         {
+            await Task.Delay(0);
             DateTime dt1 = DateTime.Now;
             var dt = dt1.AddSeconds(-2);
             var url1 = $"";
@@ -192,10 +193,12 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             g.DrawImage(img, rect, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, ia);
             pictureBox1.Image = canvas;
             g.Dispose();
+            await Task.Delay(100);
         }
 
-        private void timer2_Tick(object sender, EventArgs e)
+        private async void timer2_Tick(object sender, EventArgs e)
         {
+            await Task.Delay(0);
             var al_flg = Properties.Settings.Default.eew_flg;
 
             if(al_flg == "f")
@@ -245,6 +248,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                 g.Dispose();
                 b.Dispose();
                 pictureBox2.Image = canvas;
+                await Task.Delay(100);
             }
         }
     }
