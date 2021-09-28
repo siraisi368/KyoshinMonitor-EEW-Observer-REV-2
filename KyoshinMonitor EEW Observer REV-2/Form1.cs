@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -26,6 +21,8 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.Location = Properties.Settings.Default.main;
+
             Bitmap canvas = new Bitmap(pictureBox2.Width, pictureBox2.Height);
             Graphics g = Graphics.FromImage(canvas);
             SolidBrush b = new SolidBrush(Color.FromArgb(40, 60, 60));
@@ -407,6 +404,12 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
         {
             Form3 f = new Form3();
             f.Show();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.main = this.Location;
+            Properties.Settings.Default.Save();
         }
     }
 }

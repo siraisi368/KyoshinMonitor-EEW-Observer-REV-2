@@ -84,7 +84,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 18);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Ver 0.1.1α";
+            this.label1.Text = "Ver 1.0.0β";
             // 
             // label2
             // 
@@ -119,40 +119,40 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             // サブウインドウToolStripMenuItem
             // 
             this.サブウインドウToolStripMenuItem.Name = "サブウインドウToolStripMenuItem";
-            this.サブウインドウToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.サブウインドウToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.サブウインドウToolStripMenuItem.Text = "サブウインドウ";
             this.サブウインドウToolStripMenuItem.Click += new System.EventHandler(this.サブウインドウToolStripMenuItem_Click);
             // 
             // 地震情報ToolStripMenuItem
             // 
             this.地震情報ToolStripMenuItem.Name = "地震情報ToolStripMenuItem";
-            this.地震情報ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.地震情報ToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.地震情報ToolStripMenuItem.Text = "地震情報";
             // 
             // ログToolStripMenuItem
             // 
             this.ログToolStripMenuItem.Name = "ログToolStripMenuItem";
-            this.ログToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ログToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.ログToolStripMenuItem.Text = "ログ";
             // 
             // 設定ToolStripMenuItem
             // 
             this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
-            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.設定ToolStripMenuItem.Text = "設定";
             this.設定ToolStripMenuItem.Click += new System.EventHandler(this.設定ToolStripMenuItem_Click);
             // 
             // 再起動ToolStripMenuItem
             // 
             this.再起動ToolStripMenuItem.Name = "再起動ToolStripMenuItem";
-            this.再起動ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.再起動ToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.再起動ToolStripMenuItem.Text = "再起動";
             this.再起動ToolStripMenuItem.Click += new System.EventHandler(this.再起動ToolStripMenuItem_Click);
             // 
             // 終了ToolStripMenuItem
             // 
             this.終了ToolStripMenuItem.Name = "終了ToolStripMenuItem";
-            this.終了ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.終了ToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.終了ToolStripMenuItem.Text = "終了";
             this.終了ToolStripMenuItem.Click += new System.EventHandler(this.終了ToolStripMenuItem_Click);
             // 
@@ -183,6 +183,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
             this.Text = "KyoshinMonitor EEW Obserber - MainWindow";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();

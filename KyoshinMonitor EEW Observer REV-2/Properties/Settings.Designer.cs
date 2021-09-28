@@ -58,5 +58,17 @@ namespace KyoshinMonitor_EEW_Observer_REV_2.Properties {
                 this["eew_flg"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point main {
+            get {
+                return ((global::System.Drawing.Point)(this["main"]));
+            }
+            set {
+                this["main"] = value;
+            }
+        }
     }
 }
