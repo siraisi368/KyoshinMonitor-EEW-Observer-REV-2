@@ -44,7 +44,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
         private async void timer1_Tick(object sender, EventArgs e)
         {
             //EEW部分
-            {
+            { 
                 DateTime dt = DateTime.Now; //現在時刻の取得(PC時刻より)
                 var tm = dt.AddSeconds(-2); //現在時刻から2秒引く(取得失敗を防ぐため)
                 var time = tm.ToString("yyyyMMddHHmmss");//時刻形式の指定(西暦/月/日/時/分/秒)
