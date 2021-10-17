@@ -1,7 +1,7 @@
 ﻿
 namespace KyoshinMonitor_EEW_Observer_REV_2
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         /// 必要なデザイナー変数です。
@@ -30,7 +30,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();

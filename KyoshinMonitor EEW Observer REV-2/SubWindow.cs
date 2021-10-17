@@ -17,9 +17,9 @@ using System.Drawing.Drawing2D;
 
 namespace KyoshinMonitor_EEW_Observer_REV_2
 {
-    public partial class Form3 : Form
+    public partial class SubWindow : Form
     {
-        public Form3()
+        public SubWindow()
         {
             InitializeComponent();
         }
