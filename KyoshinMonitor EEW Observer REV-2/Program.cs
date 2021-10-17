@@ -8,6 +8,8 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
 {
     static class Program
     {
+        internal static EewResult LastEewResult = EewResult.None;
+
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
@@ -16,7 +18,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MainWindow());
         }
     }
 }

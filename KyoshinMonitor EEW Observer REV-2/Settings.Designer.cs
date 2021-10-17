@@ -1,7 +1,7 @@
 ﻿
 namespace KyoshinMonitor_EEW_Observer_REV_2
 {
-    partial class Form2
+    partial class Settings
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
