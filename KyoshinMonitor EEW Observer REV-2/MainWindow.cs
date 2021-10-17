@@ -3,12 +3,9 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using NAudio;
 using System.Net.Http;
 using System.IO;
-using System.Net;
 using System.Drawing.Text;
-using System.Drawing.Drawing2D;
 
 namespace KyoshinMonitor_EEW_Observer_REV_2
 {
@@ -131,17 +128,17 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                 switch (al_flg)
                 {
                     case "警報":
-                        Properties.Settings.Default.eew_flg = "w";
+                        Program.LastEewResult = EewResult.Warning;
                         WriteInformationToDisplay(WarningColor, null, $"緊急地震速報(警報) #{rpt_no}{(end_flg ? " 最終" : "")}", reg, intn, mag, depth);
                         break;
 
                     case "予報":
-                        Properties.Settings.Default.eew_flg = "f";
+                        Program.LastEewResult = EewResult.Forecast;
                         WriteInformationToDisplay(ForecastColor, null, $"緊急地震速報(予報) #{rpt_no}{(end_flg ? " 最終" : "")}", reg, intn, mag, depth);
                         break;
 
                     default:
-                        Properties.Settings.Default.eew_flg = "n";
+                        Program.LastEewResult = EewResult.None;
                         WriteInformationToDisplay(GeneralInfoColor, ("受信待機中", "No Data..."));
                         break;
                 }
@@ -176,136 +173,26 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                 var time2 = dt.ToString("yyyyMMddHHmmss");
 
                 {
-                    string url = string.Empty;
+                    var monimgurlanddesc = MonitorImageSelector.GetUrlAndDescriptionFromCode(Properties.Settings.Default.monit_url, time1, time2);
 
-                    switch (Properties.Settings.Default.monit_url)
-                    {
-                        case 0:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/jma_s/{time1}/{time2}.jma_s.gif";
-                            label3.Text = "地表震度";
-                            break;
+                    string url = monimgurlanddesc.Item1;
+                    label3.Text = monimgurlanddesc.Item2;
 
-                        case 1:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/acmap_s/{time1}/{time2}.acmap_s.gif";
-                            label3.Text = "地表加速度";
-                            break;
-
-                        case 2:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/vcmap_s/{time1}/{time2}.vcmap_s.gif";
-                            label3.Text = "地表速度";
-                            break;
-
-                        case 3:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/dcmap_s/{time1}/{time2}.dcmap_s.gif";
-                            label3.Text = "地表変位";
-                            break;
-
-                        case 4:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp0125_s/{time1}/{time2}.rsp0125_s.gif";
-                            label3.Text = "地表0.125Hz応答";
-                            break;
-
-                        case 5:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp0250_s/{time1}/{time2}.rsp0250_s.gif";
-                            label3.Text = "地表0.250Hz応答";
-                            break;
-
-                        case 6:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp0500_s/{time1}/{time2}.rsp0500_s.gif";
-                            label3.Text = "地表0.500Hz応答";
-                            break;
-
-                        case 7:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp1000_s/{time1}/{time2}.rsp1000_s.gif";
-                            label3.Text = "地表1Hz応答";
-                            break;
-
-                        case 8:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp2000_s/{time1}/{time2}.rsp2000_s.gif";
-                            label3.Text = "地表2Hz応答";
-                            break;
-
-                        case 9:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp4000_s/{time1}/{time2}.rsp4000_s.gif";
-                            label3.Text = "地表4Hz応答";
-                            break;
-
-                        case 10:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/jma_b/{time1}/{time2}.jma_b.gif";
-                            label3.Text = "地中震度";
-                            break;
-
-                        case 11:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/acmap_b/{time1}/{time2}.acmap_b.gif";
-                            label3.Text = "地中加速";
-                            break;
-
-                        case 12:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/vcmap_b/{time1}/{time2}.vcmap_b.gif";
-                            label3.Text = "地中速度";
-                            break;
-
-                        case 13:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/dcmap_b/{time1}/{time2}.dcmap_b.gif";
-                            label3.Text = "地中変位";
-                            break;
-
-                        case 14:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp0125_b/{time1}/{time2}.rsp0125_b.gif";
-                            label3.Text = "地中0.125Hz応答";
-                            break;
-
-                        case 15:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp0250_b/{time1}/{time2}.rsp0250_b.gif";
-                            label3.Text = "地中0.250Hz応答";
-                            break;
-
-                        case 16:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp0500_b/{time1}/{time2}.rsp0500_b.gif";
-                            label3.Text = "地中0.500Hz応答";
-                            break;
-
-                        case 17:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp1000_b/{time1}/{time2}.rsp1000_b.gif";
-                            label3.Text = "地中1Hz応答";
-                            break;
-
-                        case 18:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp2000_b/{time1}/{time2}.rsp2000_b.gif";
-                            label3.Text = "地中2Hz応答";
-                            break;
-
-                        case 19:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/RealTimeImg/rsp4000_b/{time1}/{time2}.rsp4000_b.gif";
-                            label3.Text = "地中4Hz応答";
-                            break;
-
-                        case 20:
-                            url = $"http://www.kmoni.bosai.go.jp//data/map_img/EstShindoImg/eew/{time1}/{time2}.eew.gif";
-                            label3.Text = "EEW予測";
-                            break;
-
-                        case 21:
-                            url = $"https://www.lmoni.bosai.go.jp/monitor/data/data/map_img/RealTimeImg/abrspmx_s/{time1}/{time2}.abrspmx_s.gif";
-                            label3.Text = "長周期地震動";
-                            break;
+                    using (Stream stream = await ImageHttpClient.GetStreamAsync(url))
+                    { 
+                        Bitmap bitmap = new Bitmap(stream);
+                        bitmap.MakeTransparent();
+                        pictureBox1.BackgroundImage = bitmap;
                     }
-
-                    Stream stream = await ImageHttpClient.GetStreamAsync(url);
-                    Bitmap bitmap = new Bitmap(stream);
-                    stream.Close();
-                    bitmap.MakeTransparent();
-                    pictureBox1.BackgroundImage = bitmap;
                 }
 
                 { 
                     string url = $"http://www.kmoni.bosai.go.jp/data/map_img/PSWaveImg/eew/{time1}/{time2}.eew.gif";
-                    Stream stream = await ImageHttpClient.GetStreamAsync(url);
+
                     Bitmap canvas = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                    Bitmap img = new Bitmap(stream);
 
                     System.Drawing.Imaging.ColorMap[] cms = new System.Drawing.Imaging.ColorMap[]
-                        {new System.Drawing.Imaging.ColorMap(), new System.Drawing.Imaging.ColorMap()};
+                            {new System.Drawing.Imaging.ColorMap(), new System.Drawing.Imaging.ColorMap()};
                     //P波
                     cms[0].OldColor = Color.Blue;
                     cms[0].NewColor = Color.SpringGreen;
@@ -316,8 +203,11 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                     System.Drawing.Imaging.ImageAttributes ia = new System.Drawing.Imaging.ImageAttributes();
                     ia.SetRemapTable(cms);
 
+                    using (Stream stream = await ImageHttpClient.GetStreamAsync(url))
                     using (Graphics g = Graphics.FromImage(canvas))
                     {
+                        Bitmap img = new Bitmap(stream);
+
                         Rectangle rect = new Rectangle(0, 0, img.Width, img.Height);
                         g.DrawImage(img, rect, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, ia);
                     }
