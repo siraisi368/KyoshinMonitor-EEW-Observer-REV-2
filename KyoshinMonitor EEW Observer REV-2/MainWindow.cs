@@ -47,7 +47,8 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
         /// <param name="intensity"></param>
         /// <param name="magnitude"></param>
         /// <param name="depthKm"></param>
-        private void WriteInformationToDisplay((Color?, Color?, Color?) backgroundColors, (string, string)? status = null, string primarydata = null, string region = null, string intensity = null, float? magnitude = null, int? depthKm = null)
+        /// <param name="al_flg"></param>
+        private void WriteInformationToDisplay((Color?, Color?, Color?) backgroundColors, (string, string)? status = null, string primarydata = null, string region = null, string intensity = null, float? magnitude = null, int? depthKm = null, string al_flg = null)
         {
             Bitmap canvas = new Bitmap(pictureBox2.Width, pictureBox2.Height);
 
@@ -73,26 +74,30 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                     g.DrawString(status.Value.Item2 ?? string.Empty, EnglishStatusFont, Brushes.White, 4, 30);
                 }
 
-                if (primarydata != null)
-                    g.DrawString(primarydata, AlertTypeFont, Brushes.Black, 0, 0);
-                if (region != null)
-                    g.DrawString(region, RegionFont, Brushes.Black, 0, 20);
-                if (intensity != null)
                 {
-                    g.DrawString("震度", DetailLabelFont, Brushes.Black, 3, 67);
-                    g.DrawString(intensity, IntensityFont, Brushes.Black, 25, 42);
+                    if (primarydata != null)
+                        g.DrawString(primarydata, AlertTypeFont, Brushes.Black, 0, 0);
+                    if (region != null)
+                        g.DrawString(region, RegionFont, Brushes.Black, 0, 20);
+                    if (intensity != null)
+                    {
+                        g.DrawString("震度", DetailLabelFont, Brushes.Black, 3, 67);
+                        g.DrawString(intensity, IntensityFont, Brushes.Black, 25, 42);
+                    }
+                    if (magnitude != null)
+                    {
+                        g.DrawString("M", DetailLabelFont, Brushes.Black, 85, 67);
+                        g.DrawString(magnitude.ToString(), DetailFont, Brushes.Black, 95, 50);
+                    }
+                    if (depthKm != null)
+                    {
+                        g.DrawString("深さ", DetailLabelFont, Brushes.Black, 140, 67);
+                        g.DrawString(depthKm.ToString(), DetailFont, Brushes.Black, 160, 50);
+                        g.DrawString("km", DetailLabelFont, Brushes.Black, 205, 67);
+                    }
                 }
-                if (magnitude != null)
-                {
-                    g.DrawString("M", DetailLabelFont, Brushes.Black, 85, 67);
-                    g.DrawString(magnitude.ToString(), DetailFont, Brushes.Black, 95, 50);
-                }
-                if (depthKm != null)
-                {
-                    g.DrawString("深さ", DetailLabelFont, Brushes.Black, 140, 67);
-                    g.DrawString(depthKm.ToString(), DetailFont, Brushes.Black, 160, 50);
-                    g.DrawString("km", DetailLabelFont, Brushes.Black, 205, 67);
-                }
+                 
+
             }
 
             pictureBox2.Image = canvas;
@@ -117,14 +122,16 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                 string intn = eew.calcintensity;        // 震度
                 bool end_flg = eew.is_final == "true";  // 最終報
                 string al_flg = eew.alertflg;           // アラートタイプ (予報、警報)
+                var eew_flg = eew.result.message; //EEW発表の有無
 
                 float mag;
                 if (!float.TryParse(eew.magunitude, out mag /* マグニチュード */)) mag = float.NaN;
 
-                if (!int.TryParse(eew.depth.Replace("km", ""), out int depth /* 深度 */)) goto OnError;
+                if (!int.TryParse(eew.depth.Replace("km", ""), out int depth /* 深度 */)) depth = 0;
 
-                if (!int.TryParse(eew.report_num, out int rpt_no /* 報版 */)) goto OnError;
+                if (!int.TryParse(eew.report_num, out int rpt_no /* 報版 */)) rpt_no = 0;
 
+                
                 switch (al_flg)
                 {
                     case "警報":
@@ -137,7 +144,7 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
                         WriteInformationToDisplay(ForecastColor, null, $"緊急地震速報(予報) #{rpt_no}{(end_flg ? " 最終" : "")}", reg, intn, mag, depth);
                         break;
 
-                    default:
+                    case null:
                         Program.LastEewResult = EewResult.None;
                         WriteInformationToDisplay(GeneralInfoColor, ("受信待機中", "No Data..."));
                         break;
@@ -149,7 +156,6 @@ namespace KyoshinMonitor_EEW_Observer_REV_2
             }
 
             label2.Text = dt.ToString("yyyy/MM/dd HH:mm:ss");
-            await Task.Delay(100); // 尋問
             return;
 
         OnError:
